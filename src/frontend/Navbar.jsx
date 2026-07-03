@@ -35,32 +35,37 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  const NavLink = ({ to, children }) => (
-    <Link
-      to={to}
-      className={`relative text-gray-800 font-semibold after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-red-300 after:transition-transform after:duration-300 hover:after:scale-x-100 ${
-        location.pathname === to ? "after:scale-x-100" : ""
-      }`}
-    >
-      {children}
-    </Link>
-  );
+  const NavLink = ({ to, children }) => {
+    const isActive = location.pathname === to;
+    return (
+      <Link
+        to={to}
+        className={`px-5 py-2 rounded-full font-semibold transition-all duration-300 ${
+          isActive
+            ? "bg-rose-500 text-white shadow-md"
+            : "text-gray-500 hover:text-gray-900 hover:bg-gray-100/50"
+        }`}
+      >
+        {children}
+      </Link>
+    );
+  };
 
   return (
     <>
-      <nav
-        className={`w-full bg-white/80 backdrop-blur-md fixed top-0 z-50 transition-all duration-300 ${
-          isScrolled ? "shadow-md" : "shadow-none"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-2">
+      <div className="fixed top-4 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
+        <nav
+          className={`pointer-events-auto w-full max-w-5xl bg-white/60 backdrop-blur-xl border border-white/50 rounded-full transition-all duration-300 flex items-center justify-between px-4 py-2 ${
+            isScrolled ? "shadow-[0_8px_30px_rgb(0,0,0,0.12)] y-2" : "shadow-sm"
+          }`}
+        >
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
-            <img src={Logo} alt="Nichibag" className="h-16 w-auto" />
+          <Link to="/" className="flex-shrink-0 ml-2">
+            <img src={Logo} alt="Nichibag" className="h-10 w-auto" />
           </Link>
 
           {/* Menu Desktop */}
-          <ul className="hidden md:flex items-center space-x-8">
+          <ul className="hidden md:flex items-center space-x-1">
             {menuItems.map((item) => (
               <li key={item.name}>
                 <NavLink to={item.path}>{item.name}</NavLink>
@@ -69,27 +74,27 @@ const Navbar = () => {
           </ul>
 
           {/* Tombol Aksi & Hamburger */}
-          <div className="flex items-center gap-4">
-            <Link to="/cart" className="relative p-2 text-gray-800 hover:text-red-600 transition">
-              <ShoppingBag size={24} />
+          <div className="flex items-center gap-3">
+            <Link to="/cart" className="relative p-2 text-gray-800 hover:text-rose-500 transition-colors">
+              <ShoppingBag size={22} />
               {getTotalItems() > 0 && (
-                <span className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                <span className="absolute top-0 right-0 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-white">
                   {getTotalItems()}
                 </span>
               )}
             </Link>
             <button
                 onClick={() => navigate('/katalog')}
-                className="hidden md:block bg-[#f8d7d0] text-red-700 font-bold px-6 py-2 rounded-full hover:bg-red-400 transition-all duration-300 transform hover:scale-105"
+                className="hidden md:block bg-[#f8d7d0] text-red-700 font-bold px-6 py-2 rounded-full hover:bg-rose-400 hover:text-white transition-all duration-300 transform hover:scale-105"
             >
                 Shop Now
             </button>
-            <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2">
-              <Menu size={28} className="text-gray-800" />
+            <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2 mr-2">
+              <Menu size={26} className="text-gray-800" />
             </button>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       {/* Menu Mobile (Slide-out) */}
       <div

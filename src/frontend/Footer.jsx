@@ -8,6 +8,7 @@ import {
   faWhatsapp 
 } from "@fortawesome/free-brands-svg-icons";
 import { faStore } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const menuItems = [
@@ -50,9 +51,11 @@ const Footer = () => {
                 <li key={index}>
                   <a
                     href={item.path}
-                    className="text-red-700 hover:text-red-300 transition-colors"
+                    className="group inline-flex items-center text-red-700 font-medium transition-all duration-300 hover:text-red-900"
                   >
-                    {item.name}
+                    <span className="transition-transform duration-300 ease-out group-hover:translate-x-2">
+                      {item.name}
+                    </span>
                   </a>
                 </li>
               ))}
@@ -75,19 +78,22 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-lg mb-4 text-red-700">Follow Us</h3>
             {/* 👇 BAGIAN INI YANG DIPERBARUI */}
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-4 mt-2">
               {socialLinks.map((social) => (
-                <a
+                <motion.a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="flex flex-col items-center gap-2 text-red-700 hover:text-red-300 transition-all duration-300 transform hover:scale-110 w-16"
+                  whileHover={{ scale: 1.15, y: -6, rotate: 4 }}
+                  whileTap={{ scale: 0.9, rotate: -4 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  className="group flex flex-col items-center justify-center gap-2 text-red-700 bg-white/50 hover:bg-red-700 hover:text-white rounded-2xl p-3 transition-colors duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_20px_rgba(185,28,28,0.3)] w-20 border border-red-100"
                 >
                   <FontAwesomeIcon icon={social.icon} className="h-6 w-6" />
-                  <span className="text-xs font-semibold">{social.label}</span>
-                </a>
+                  <span className="text-[10px] font-bold uppercase tracking-wider">{social.label}</span>
+                </motion.a>
               ))}
             </div>
           </div>
