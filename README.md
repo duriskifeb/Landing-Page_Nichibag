@@ -76,4 +76,7 @@ Build Landing-Page_Nichibag from the source and install dependencies:
    [cd Server]
    [npm start]
 
-pppp
+asd
+
+
+sudah deploy vercel
