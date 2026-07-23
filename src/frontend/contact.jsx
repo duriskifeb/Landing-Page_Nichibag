@@ -18,7 +18,7 @@ const ContactUs = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "", 
+    email: "",
     subject: "Tanya Produk", // Nilai default untuk dropdown
     message: "",
   });
@@ -31,7 +31,7 @@ const ContactUs = () => {
     e.preventDefault();
 
     // NOMOR HP TUJUAN (ganti dengan nomormu, awali dengan 62)
-    const phoneNumber = "6287788261298"; 
+    const phoneNumber = "6287788261298";
 
     // ===== FORMAT PESAN BARU DENGAN TOPIK SPESIFIK =====
     const whatsappMessage = `
@@ -104,7 +104,7 @@ _(Pesan ini otomatis terkirim dari formulir nichibag.id)_
           initial="hidden"
           animate="visible"
           transition={{ delay: 0.2 }}
-          className="bg-[#F7A5A5] text-red-700 p-8 rounded-xl shadow-lg space-y-6 w-full border-2 border-red-700"
+          className="bg-[#ffffff] text-red-700 p-8 rounded-xl shadow-lg space-y-6 w-full border-2 border-red-700"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input

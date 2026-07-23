@@ -1,32 +1,25 @@
 // src/components/Carousel.jsx
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
+// Import gambar lokal (static / hardcode)
+import Carousel1 from "../assets/Carousel1.png";
+import Carousel2 from "../assets/Carousel2.png";
+import Carousel3 from "../assets/Carousel3.png";
+
+// Data carousel static — tidak perlu server backend
+const staticSlides = [
+  { id: 1, image: Carousel1, alt: "Carousel NichiBag 1", link: "/katalog" },
+  { id: 2, image: Carousel2, alt: "Carousel NichiBag 2", link: "/katalog" },
+  { id: 3, image: Carousel3, alt: "Carousel NichiBag 3", link: "/katalog" },
+];
+
 function Carousel() {
-  const [slides, setSlides] = useState([]);
-
-  useEffect(() => {
-    const fetchCarouselImages = async () => {
-      try {
-        const response = await axios.get("http://127.0.0.1:5000/home/carousel");
-        setSlides(response.data);
-      } catch (error) {
-        console.error("Gagal mengambil gambar carousel:", error);
-      }
-    };
-    fetchCarouselImages();
-  }, []);
-
-  if (slides.length === 0) {
-    return <div className="w-full h-[60vh] bg-gray-200 animate-pulse"></div>;
-  }
-
   return (
     <div className="relative w-full">
       <Swiper
@@ -48,20 +41,19 @@ function Carousel() {
         }}
         className="w-full h-[60vh] sm:h-[450px] md:h-[550px] lg:h-[650px]"
       >
-        {slides.map((slide, index) => (
-  <SwiperSlide key={slide._id || index}>
-  <div
-    className="relative w-full h-full cursor-pointer"
-    onClick={() => window.open(slide.link, "_blank")}
-  >
-    <img
-      src={`http://127.0.0.1:5000${slide.url}`}
-      alt={`Slide ${index + 1}`}
-      className="w-full h-full object-cover"
-    />
-  </div>
-</SwiperSlide>
-
+        {staticSlides.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            <div
+              className="relative w-full h-full cursor-pointer"
+              onClick={() => (window.location.href = slide.link)}
+            >
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </SwiperSlide>
         ))}
       </Swiper>
 
