@@ -1,25 +1,40 @@
 // src/components/Carousel.jsx
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
-// Import gambar lokal (static / hardcode)
-import Carousel1 from "../assets/Carousel1.png";
-import Carousel2 from "../assets/Carousel2.png";
-import Carousel3 from "../assets/Carousel3.png";
-
-// Data carousel static — tidak perlu server backend
-const staticSlides = [
-  { id: 1, image: Carousel1, alt: "Carousel NichiBag 1", link: "/katalog" },
-  { id: 2, image: Carousel2, alt: "Carousel NichiBag 2", link: "/katalog" },
-  { id: 3, image: Carousel3, alt: "Carousel NichiBag 3", link: "/katalog" },
-];
-
 function Carousel() {
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    const fetchCarousel = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:5000/home/carousel");
+        setSlides(response.data);
+      } catch (error) {
+        console.error("Gagal memuat data carousel:", error);
+      }
+    };
+    fetchCarousel();
+  }, []);
+
+  if (slides.length === 0) {
+    return (
+      <div className="w-full h-[60vh] sm:h-[450px] md:h-[550px] lg:h-[650px] bg-gray-200 flex flex-col items-center justify-center">
+        <svg className="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <p className="text-gray-500 font-medium text-lg">Belum ada gambar carousel.</p>
+        <p className="text-gray-400 text-sm">Silakan tambahkan gambar melalui halaman Admin.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full">
       <Swiper
@@ -41,15 +56,17 @@ function Carousel() {
         }}
         className="w-full h-[60vh] sm:h-[450px] md:h-[550px] lg:h-[650px]"
       >
-        {staticSlides.map((slide) => (
-          <SwiperSlide key={slide.id}>
+        {slides.map((slide) => (
+          <SwiperSlide key={slide._id}>
             <div
               className="relative w-full h-full cursor-pointer"
-              onClick={() => (window.location.href = slide.link)}
+              onClick={() => {
+                if (slide.link) window.location.href = slide.link;
+              }}
             >
               <img
-                src={slide.image}
-                alt={slide.alt}
+                src={`http://127.0.0.1:5000${slide.url}`}
+                alt={slide.nama}
                 className="w-full h-full object-cover"
               />
             </div>
